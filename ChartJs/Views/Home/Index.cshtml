@@ -1,0 +1,126 @@
+﻿@model IEnumerable<ChartJs.Models.ChartOutput>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+
+    <div class="col-md-6">
+        <canvas id="ch1" class="chart-canvas"></canvas>
+
+    </div>
+    <div class="col-md-6">
+        <canvas id="ch2" class="chart-canvas"></canvas>
+
+    </div>
+    <div class="col-md-6">
+        <canvas id="ch3" class="chart-canvas"></canvas>
+
+    </div>
+    <div class="col-md-6">
+        <canvas id="ch4" class="chart-canvas"></canvas>
+
+    </div>
+    <div class="col-md-6">
+        <canvas id="ch5" class="chart-canvas"></canvas>
+
+    </div>
+    <div class="col-md-6">
+        <canvas id="ch6" class="chart-canvas"></canvas>
+
+    </div>
+    <div class="col-md-6">
+        <canvas id="ch7" class="chart-canvas"></canvas>
+
+    </div>
+</div>
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/js/charts")
+
+    <script>
+        var ch1Data = [];
+        ch1Data.push({ value: 25, color: "red", label: "نام اول", highlight: "green" });
+        ch1Data.push({ value: 10, color: "green", label: "نام دوم", highlight: "green" });
+        ch1Data.push({ value: 20, color: "blue", label: "نام سوم", highlight: "green" });
+
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        var ch2Data = [],
+            ch2Labels=["فروردین","اردیبهشت","خرداد"],
+            ch2Values=[10,25,7];
+
+        ch2Data = {
+            labels:ch2Labels ,
+            datasets: [
+                {
+                    label: "My First dataset",
+                    fillColor: "#3e51b5",
+                    strokeColor: "#3646a8",
+                    highlightFill: "#3646a8",
+                    highlightStroke: "#3646a8",
+                    data: ch2Values
+                }
+            ]
+        };
+        //////////////////////////////////////////////////////////
+        var ch3Data = [];
+
+        @foreach (var item in Model)
+	    {
+		     <text>ch3Data.push({ value: @item.Value, color: "@item.Color", label: "@item.Name", highlight: "green" });</text>
+	    }
+        //////////////////////////////////////////////////////////////
+        var ch4Data = [],
+      ch4Labels=[],
+      ch4Values=[];
+
+        @foreach (var item in Model)
+        {
+            <text>ch4Labels.push("@item.Name");</text>
+            <text>ch4Values.push(@item.Value);</text>
+        }
+
+        ch4Data = {
+            labels:ch4Labels ,
+            datasets: [
+                {
+                    label: "My First dataset",
+                    fillColor: "#3e51b5",
+                    strokeColor: "#3646a8",
+                    highlightFill: "#3646a8",
+                    highlightStroke: "#3646a8",
+                    data: ch4Values
+                }
+            ]
+        };
+
+
+        $(function() {
+            var ctx = document.getElementById("ch1").getContext("2d");
+            var chart = new Chart(ctx).Pie(ch1Data);
+
+            var ctx = document.getElementById("ch2").getContext("2d");
+            var chart = new Chart(ctx).Bar(ch2Data, null);
+
+            var ctx = document.getElementById("ch3").getContext("2d");
+            var chart = new Chart(ctx).Doughnut(ch1Data);
+
+            var ctx = document.getElementById("ch4").getContext("2d");
+            var chart = new Chart(ctx).Line(ch2Data, null);
+
+            var ctx = document.getElementById("ch5").getContext("2d");
+            var chart = new Chart(ctx).Radar(ch2Data, null);
+
+
+            var ctx = document.getElementById("ch6").getContext("2d");
+            var chart = new Chart(ctx).Pie(ch3Data);
+
+
+            var ctx = document.getElementById("ch7").getContext("2d");
+            var chart = new Chart(ctx).Bar(ch4Data, null);
+        });
+
+    </script>
+}
